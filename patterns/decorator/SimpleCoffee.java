@@ -45,7 +45,7 @@ class MilkDecorator extends CoffeeDecorator {
 
     @Override
     public String description() {
-        return coffee.description() + " ,Milk";
+        return coffee.description() + ", Milk";
     }
 
     @Override
@@ -62,7 +62,7 @@ class SugarDecorator extends CoffeeDecorator {
 
     @Override
     public String description() {
-        return coffee.description() + " ,Sugar";
+        return coffee.description() + ", Sugar";
     }
 
     @Override
