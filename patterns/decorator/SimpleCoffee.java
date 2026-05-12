@@ -1,5 +1,10 @@
 package Design.patterns.decorator;
 
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+
 interface Coffee {
 
     String description();
@@ -8,6 +13,22 @@ interface Coffee {
 }
 
 public class SimpleCoffee implements Coffee {
+
+    private static final Logger log = Logger.getLogger(SimpleCoffee.class.getName());
+
+    static {
+        log.setUseParentHandlers(false);
+        ConsoleHandler handler = new ConsoleHandler();
+
+        handler.setFormatter(new Formatter() {
+            @Override
+            public String format(LogRecord record) {
+                return record.getMessage() + "\n";
+            }
+        });
+
+        log.addHandler(handler);
+    }
 
     @Override
     public String description() {
@@ -23,8 +44,8 @@ public class SimpleCoffee implements Coffee {
 
         Coffee coffee = new SugarDecorator(new MilkDecorator(new SimpleCoffee()));
 
-        System.out.println("Coffee details");
-        System.out.println(coffee.description() + " " + coffee.cost());
+        log.info("Coffee details");
+        log.info(coffee.description() + " " + coffee.cost());
     }
 }
 
@@ -32,7 +53,7 @@ abstract class CoffeeDecorator implements Coffee{
 
     protected Coffee coffee;
 
-    public CoffeeDecorator(Coffee coffee) {
+    protected CoffeeDecorator(Coffee coffee) {
         this.coffee = coffee;
     }
 }
